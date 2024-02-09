@@ -784,11 +784,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\BackEnd\\Todo app\\TodoApp\\TodoApp\\TodoApp.csproj",
+      "projectUniqueName": "E:\\RPS - assignment\\RPS - Network\\TodoApp.csproj",
       "projectName": "TodoApp",
-      "projectPath": "E:\\BackEnd\\Todo app\\TodoApp\\TodoApp\\TodoApp.csproj",
+      "projectPath": "E:\\RPS - assignment\\RPS - Network\\TodoApp.csproj",
       "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-      "outputPath": "E:\\BackEnd\\Todo app\\TodoApp\\TodoApp\\obj\\",
+      "outputPath": "E:\\RPS - assignment\\RPS - Network\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
