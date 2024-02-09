@@ -8,8 +8,7 @@
     {
         private readonly IMongoCollection<Todos> _todos;
 
-        public TodosService(
-            IOptions<TodoDbSettings> bookStoreDatabaseSettings)
+        public TodosService(IOptions<TodoDbSettings> bookStoreDatabaseSettings)
         {
             var mongoClient = new MongoClient(
                 bookStoreDatabaseSettings.Value.ConnectionString);
@@ -21,18 +20,26 @@
                 bookStoreDatabaseSettings.Value.Todo);
         }
 
-        public async Task<List<Todos>> GetAsync() =>
-            await _todos.Find(_ => true).ToListAsync();
+        //public List<Todos> GetAsync()
+        //{
+        //    List<Todos> temp = new List<Todos> ();
+        //    Todos todo = new Todos("Mock test Text");
+        //    temp.Add(todo);
+        //    return temp;
+        //}
+
+        public async Task<List<Todos>> GetAsync()
+        {
+            return await _todos.Find(x => true).ToListAsync();
+        }
+        //await _todos.Find(_ => true).ToListAsync();
 
         public async Task<Todos?> GetAsync(string id) =>
             await _todos.Find(x => x.Id == id).FirstOrDefaultAsync();
-
         public async Task CreateAsync(Todos newTodo) =>
             await _todos.InsertOneAsync(newTodo);
-
         public async Task UpdateAsync(string id, Todos updatedBook) =>
             await _todos.ReplaceOneAsync(x => x.Id == id, updatedBook);
-
         public async Task RemoveAsync(string id) =>
             await _todos.DeleteOneAsync(x => x.Id == id);
     }

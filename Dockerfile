@@ -1,15 +1,26 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /App
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
+WORKDIR /home/app
+EXPOSE 80
+EXPOSE 5166
 
-# Copy everything
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /home/app
 COPY . ./
-# Restore as distinct layers
-# RUN dotnet restore
-# Build and publish a release
-# RUN dotnet publish -c Release -o out
 
-# # Build runtime image
-# FROM mcr.microsoft.com/dotnet/aspnet:8.0
-# WORKDIR /App
-# COPY --from=build-env /App/out .
-# ENTRYPOINT ["dotnet", "TodoApp.dll"]
+RUN dotnet build "TodoApp.csproj" -c Release -o /home/app/build
+
+FROM build AS publish
+RUN dotnet publish "TodoApp.csproj" -c Release -o /home/app/publish
+
+FROM base AS final
+WORKDIR /home/app
+COPY --from=publish /home/app/publish .
+ENTRYPOINT ["dotnet", "TodoApp.dll"]
+
+
+
+
+
+
+
+

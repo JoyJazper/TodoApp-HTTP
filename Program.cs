@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using TodoApp.Services;
 using TodoDB.Todos;
 
@@ -10,6 +12,13 @@ builder.Services.Configure<TodoDbSettings>(
     builder.Configuration.GetSection("TodoDBDatabase"));
 
 builder.Services.AddSingleton<TodosService>();
+
+// Configure Kestrel for running in docker
+//builder.WebHost.ConfigureKestrel(serverOptions =>
+//{
+//    // Listen on port 5166 on any IP address
+//    serverOptions.ListenAnyIP(5166);
+//});
 
 var app = builder.Build();
 

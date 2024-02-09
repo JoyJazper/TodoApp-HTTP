@@ -17,73 +17,73 @@ namespace TodoApp.Controllers
         public async Task<List<Todos>> Get() =>
             await _todosService.GetAsync();
 
-        [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<Todos>> Get(string id)
-        {
-            var book = await _todosService.GetAsync(id);
+         [HttpGet("{id:length(24)}")]
+         public async Task<ActionResult<Todos>> Get(string id)
+         {
+             var book = await _todosService.GetAsync(id);
 
-        	if (book is null)
-            {
-                return NotFound();
-            }
+         	if (book is null)
+             {
+                 return NotFound();
+             }
 
-            return book;
-        }
+             return book;
+         }
 
-        [HttpPost]
-        public async Task<ActionResult<Todos>> Post([FromBody] string task)
-        {
-            Todos newTodo = new Todos(task);
+         [HttpPost]
+         public async Task<ActionResult<Todos>> Post([FromBody] string task)
+         {
+             Todos newTodo = new Todos(task);
 
-            await _todosService.CreateAsync(newTodo);
+             await _todosService.CreateAsync(newTodo);
 
-            return CreatedAtAction(nameof(Get), new { id = newTodo.Id }, newTodo);
-        }
+             return CreatedAtAction(nameof(Get), new { id = newTodo.Id }, newTodo);
+         }
 
-        //[HttpPut("{id:length(24)}, {task:length(24)}, {isdone:bool}")]
-        [HttpPut]
-        public async Task<ActionResult<Todos>> Update([FromBody] Todos updatedTodo)
-        {
-            if (updatedTodo == null || updatedTodo.Id == null)
-            {
-                return BadRequest("Invalid request. Todo data is missing.");
-            }
-            var todo = await _todosService.GetAsync(updatedTodo.Id);
+        [HttpPut("{id:length(24)}, {task:length(24)}, {isdone:bool}")]
+         [HttpPut]
+         public async Task<ActionResult<Todos>> Update([FromBody] Todos updatedTodo)
+         {
+             if (updatedTodo == null || updatedTodo.Id == null)
+             {
+                 return BadRequest("Invalid request. Todo data is missing.");
+             }
+             var todo = await _todosService.GetAsync(updatedTodo.Id);
 
-            if (todo is null)
-            {
-                return NotFound();
-            }
+             if (todo is null)
+             {
+                 return NotFound();
+             }
 
-            if(updatedTodo.Task != null)
-                todo.Task = updatedTodo.Task;
+             if(updatedTodo.Task != null)
+                 todo.Task = updatedTodo.Task;
 
-            todo.IsDone = updatedTodo.IsDone;
+             todo.IsDone = updatedTodo.IsDone;
 
 
-            await _todosService.UpdateAsync(updatedTodo.Id, todo);
+             await _todosService.UpdateAsync(updatedTodo.Id, todo);
 
-            return todo;
-        }
+             return todo;
+         }
 
-        [HttpDelete]
-        public async Task<ActionResult<Todos>> Delete([FromBody]string id)
-        {
-            if(id == null)
-            {
-                return BadRequest("Invalid request. Todo data is missing.");
-            }
+         [HttpDelete]
+         public async Task<ActionResult<Todos>> Delete([FromBody]string id)
+         {
+             if(id == null)
+             {
+                 return BadRequest("Invalid request. Todo data is missing.");
+             }
 
-            var todo = await _todosService.GetAsync(id);
+             var todo = await _todosService.GetAsync(id);
 
-            if (todo is null)
-            {
-                return NotFound("ID passed is not found.");
-            }
+             if (todo is null)
+             {
+                 return NotFound("ID passed is not found.");
+             }
 
-            await _todosService.RemoveAsync(id);
+             await _todosService.RemoveAsync(id);
 
-            return todo;
-        }
+             return todo;
+         }
     }
 }
