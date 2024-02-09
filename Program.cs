@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
+using RPS.Network.Models;
+using RPS.Network.Services;
 using TodoApp.Services;
 using TodoDB.Todos;
 
@@ -12,6 +14,11 @@ builder.Services.Configure<TodoDbSettings>(
     builder.Configuration.GetSection("TodoDBDatabase"));
 
 builder.Services.AddSingleton<TodosService>();
+
+builder.Services.Configure<RPSDBSettings>(
+    builder.Configuration.GetSection("RPSDBDatabase"));
+
+builder.Services.AddSingleton<RPSService>();
 
 // Configure Kestrel for running in docker
 //builder.WebHost.ConfigureKestrel(serverOptions =>

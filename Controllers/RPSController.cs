@@ -20,6 +20,16 @@ namespace RPS.Network.Controllers
         public async Task<List<RPSServerInstance>> GetAllServers() =>
             await _rpsService.GetAsync();
 
+        [HttpPost]
+        public async Task<ActionResult<RPSServerInstance>> Post()
+        {
+            RPSServerInstance newServer = new RPSServerInstance();
+
+            await _rpsService.CreateAsync(newServer);
+
+            return CreatedAtAction(nameof(GetAllServers), new { id = newServer.Id }, newServer);
+        }
+
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<RPSServerInstance>> GetServer(string id)
         {
@@ -38,7 +48,7 @@ namespace RPS.Network.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<RPSServerInstance>> Delete([FromBody] string id)
+        public async Task<ActionResult<RPSServerInstance>> Delete(string id)
         {
             if (id == null)
             {
@@ -88,7 +98,7 @@ namespace RPS.Network.Controllers
         }
 
         [HttpGet("{id:length(24)},{isPlayerOne:bool}")]
-        public async Task<ActionResult<bool>> IsOpponentReady([FromBody] string id, [FromBody] bool isPlayerOne)
+        public async Task<ActionResult<bool>> IsOpponentReady( string id, bool isPlayerOne)
         {
             if (id == null)
             {
@@ -108,7 +118,7 @@ namespace RPS.Network.Controllers
         }
 
         [HttpGet("{id:length(24)}, {myRole:length(24)},{isPlayerOne:bool}")]
-        public async Task<ActionResult<String>> GetOpponentHand([FromBody] string id, [FromBody] string myRole, [FromBody] bool isPlayerOne)
+        public async Task<ActionResult<String>> GetOpponentHand( string id, string myRole, bool isPlayerOne)
         {
             if (id == null || myRole == null)
             {
